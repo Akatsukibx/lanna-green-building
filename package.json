@@ -1,0 +1,7 @@
+{
+  "name": "lannacom-signage",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lannacom Green Building digital signage (stand-alone)",
+  "scripts": { "start": "node serve.js" }
+}

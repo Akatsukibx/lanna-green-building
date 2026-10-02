@@ -1,0 +1,28 @@
+// Express route that feeds the two live scenes. Add to the Digital Twin server.js
+// BEFORE its login gate (the data is public totals only). Needs lib/signage.js next to it.
+//
+//   const { buildSignagePayload } = require("./lib/signage");
+//
+// getHaStates() is the Digital Twin's own function that returns { data, isStale };
+// iqairCache is its outdoor air-quality cache (use null if you have none).
+
+let signageCache = { at: 0, body: null };
+app.get("/api/signage", async (req, res) => {
+    try {
+        if (!signageCache.body || Date.now() - signageCache.at > 15000) {
+            const { data, isStale } = await getHaStates();
+            signageCache = { at: Date.now(), body: buildSignagePayload(data, { isStale, outdoor: iqairCache?.current || null }) };
+        }
+        res.set({ "Cache-Control": "no-store", "Access-Control-Allow-Origin": "*" }).json(signageCache.body);
+    } catch (err) {
+        if (signageCache.body) return res.set({ "Cache-Control": "no-store", "Access-Control-Allow-Origin": "*" }).json({ ...signageCache.body, stale: true });
+        res.status(502).json({ error: "upstream error" });
+    }
+});
+
+// Example response:
+// { "generated_at": "...", "stale": false,
+//   "energy": { "solar_kw": 8.7, "grid_kw": 16.2, "home_kw": 24.9, "battery_soc": null,
+//               "solar_kwh_total": 30159, "co2_avoided_kg": 14325 },
+//   "air": { "office": { "pm25": 9, "co2": 640, "temp": 25.4, "humidity": 52 }, "outdoor_pm25": 31 },
+//   "ev": { "kwh_total": 24911 } }
