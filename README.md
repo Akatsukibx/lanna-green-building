@@ -3,7 +3,7 @@
 A looping 1920×1080 (landscape) web page for a BrightSign player, built from the
 "BM1 green building" deck. Static HTML + images only; independent of the Digital Twin system.
 
-**Live page:** https://akatsukibx.github.io/lannacom-signage/
+**Live page:** https://akatsukibx.github.io/lanna-green-building/
 
 ## Files
 
@@ -31,8 +31,7 @@ Scene ids: welcome, intro, what, benefits, energy, solar, air, waste, green, ev,
 
 `sceneSeconds` (default 7, Welcome is 6) · `welcomeEachLoop` · `header` · `api`.
 
-`api` is empty here, so the *Building Energy* and *Indoor Air Quality* scenes are skipped. To show live numbers set it to
-the Digital Twin's public endpoint, e.g. `api: "https://<twin-host>/api/signage"` (see `server-optional/route-example.js.txt`;
+`api` points at the Digital Twin's public endpoint (`https://digitaltwin-lc-fjbxb6gpapgabcf2.southeastasia-01.azurewebsites.net/api/signage`). Set it to `""` to turn the live scenes off (see `server-optional/route-example.js.txt`;
 the route already sends `Access-Control-Allow-Origin: *`). Stale or missing data hides the cards — numbers are never invented.
 
 ## Editing content

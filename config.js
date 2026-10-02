@@ -1,10 +1,8 @@
 // Signage settings. Edit this file only; no need to touch index.html.
 window.SIGNAGE_CONFIG = {
-  // Address of the live-numbers JSON. Empty string = no live data:
-  // the "Building Energy" and "Indoor Air Quality" scenes are simply skipped.
-  // To use live numbers from the Digital Twin, set the full address, e.g.
-  //   api: "https://your-twin-host/api/signage",
-  api: "",
+  // Address of the live-numbers JSON from the Digital Twin (public, building totals only).
+  // Empty string = no live data: the "Building Energy" and "Indoor Air Quality" scenes are skipped.
+  api: "https://digitaltwin-lc-fjbxb6gpapgabcf2.southeastasia-01.azurewebsites.net/api/signage",
 
   // Seconds each scene stays on screen (the Welcome scene is always 6 s).
   // null = use each scene's own default (7 s).
